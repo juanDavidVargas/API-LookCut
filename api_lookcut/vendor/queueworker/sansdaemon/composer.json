@@ -1,0 +1,45 @@
+{
+    "name": "queueworker/sansdaemon",
+    "type": "library",
+    "description": "Batch process Laravel Queue without a daemon; Processes queue jobs and kills the process",
+    "keywords": [
+        "queue",
+        "laravel"
+    ],
+    "license": "MIT",
+    "authors": [{
+        "name": "Lucky Ozoka",
+        "email": "orobolucky@gmail.com"
+    }],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^6.0|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Queueworker\\SansDaemon\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Queueworker\\SansDaemon\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Queueworker\\SansDaemon\\SansDaemonServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

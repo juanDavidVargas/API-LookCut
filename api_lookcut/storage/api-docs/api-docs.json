@@ -1,0 +1,167 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API APP LOOKCUT",
+        "description": "",
+        "contact": {
+            "name": "Support.",
+            "email": "davidvargas.jdvp@gmail.com.co"
+        },
+        "version": "v1.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor de pruebas"
+        },
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor de producción"
+        }
+    ],
+    "paths": {
+        "/api/app/login": {
+            "post": {
+                "tags": [
+                    "Inicio Sesion"
+                ],
+                "summary": "Validar usuario y contraseña para el inicio de sesión en la APP",
+                "description": "Ingresando un usuario y contraseña se valida que exista el registro en la base de datos.",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "nombre de usuario.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "path",
+                        "description": "clave.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Validación exitosa, se retorna JSON con información del usuario."
+                    },
+                    "401": {
+                        "description": "Error de Autenticación, credenciales inválidas."
+                    },
+                    "403": {
+                        "description": "Usuario bloqueado."
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado, no existe en la base de datos."
+                    },
+                    "400": {
+                        "description": "Error inesperado."
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "inicioSesion": {
+                "description": "Datos Usuario.",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "properties": {
+                    "usuario": {
+                        "description": "Array datos usuario.",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id_usuario": {
+                                    "type": "integer"
+                                },
+                                "usuario": {
+                                    "type": "string"
+                                },
+                                "nombres": {
+                                    "type": "string"
+                                },
+                                "apellidos": {
+                                    "type": "string"
+                                },
+                                "estado": {
+                                    "type": "boolean"
+                                },
+                                "fecha_nacimiento": {
+                                    "type": "integer"
+                                },
+                                "lugar_nacimiento": {
+                                    "type": "string"
+                                },
+                                "cedula": {
+                                    "type": "string"
+                                },
+                                "grupo_sanguineo": {
+                                    "type": "string"
+                                },
+                                "telefono": {
+                                    "type": "string"
+                                },
+                                "celular": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "direccion": {
+                                    "type": "string"
+                                },
+                                "clave_fallas": {
+                                    "type": "integer"
+                                },
+                                "fecha_ingreso": {
+                                    "type": "integer"
+                                },
+                                "genero": {
+                                    "type": "string"
+                                },
+                                "tipo_identificacion_id": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security",
+                "in": "header",
+                "scheme": "http",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://localhost:8000/oauth/authorize",
+                        "tokenUrl": "http://localhost:8000/oauth/token",
+                        "refreshUrl": "http://localhost:8000/token/refresh",
+                        "scopes": []
+                    }
+                }
+            }
+        }
+    }
+}
