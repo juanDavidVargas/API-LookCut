@@ -21,7 +21,25 @@ trait ApiResponser
     public function successResponse($data, $code = 200)
     {
         $headers = ['Content-Type'=>'application/json; charset=utf-8'];
-        return response()->json(['User'=>$data, 'code' => $code], $code, $headers);
+        return response()->json(['Data'=>$data, 'code' => $code], $code, $headers);
+    }
+
+    public function successResponseCiudades($data, $code = 200)
+    {
+        $headers = ['Content-Type'=>'application/json; charset=utf-8'];
+        return response()->json(['Ciudad'=>$data, 'code' => $code], $code, $headers);
+    }
+
+    public function successResponseTiposDocumento($data, $code = 200)
+    {
+        $headers = ['Content-Type'=>'application/json; charset=utf-8'];
+        return response()->json(['TipoDocumento'=>$data, 'code' => $code], $code, $headers);
+    }
+
+    public function successResponseRoles($data, $code = 200)
+    {
+        $headers = ['Content-Type'=>'application/json; charset=utf-8'];
+        return response()->json(['Roles'=>$data, 'code' => $code], $code, $headers);
     }
 
     public function successResponseMenu($data, $code = 200)

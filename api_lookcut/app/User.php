@@ -51,7 +51,8 @@ class User extends Authenticatable
         'clave_fallas',
         'fecha_ingreso',
         'genero',
-        'tipo_identificacion_id'
+        'tipo_identificacion_id',
+        'rol_id'
     ];
 
     /**

@@ -139,7 +139,8 @@ class InicioSesionShow implements Responsable
             "clave_fallas" => $usuario->clave_fallas,
             "fecha_ingreso" => $usuario->fecha_ingreso,
             "genero" => $usuario->genero,
-            "tipo_identificacion_id" => $usuario->tipo_identificacion_id
+            "tipo_identificacion_id" => $usuario->tipo_identificacion_id,
+            "rol_id" => $usuario->rol_id
         ];
 
         array_push($array_usuario, $datos_usuario);

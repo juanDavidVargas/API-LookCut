@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'client.credentials' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
+        // 'cors_middleware' => \App\Http\Middleware\CorsMiddleware::class,
     ];
 
     /**
