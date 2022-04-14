@@ -30,6 +30,12 @@ trait ApiResponser
         return response()->json(['Ciudad'=>$data, 'code' => $code], $code, $headers);
     }
 
+    public function successResponseBarberias($data, $code = 200)
+    {
+        $headers = ['Content-Type'=>'application/json; charset=utf-8'];
+        return response()->json(['Barberia'=>$data, 'code' => $code], $code, $headers);
+    }
+
     public function successResponseTiposDocumento($data, $code = 200)
     {
         $headers = ['Content-Type'=>'application/json; charset=utf-8'];

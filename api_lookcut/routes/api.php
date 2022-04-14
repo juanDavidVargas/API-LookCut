@@ -26,6 +26,12 @@ Route::middleware('auth:api', 'throttle:60,1')->group(function () {
     Route::post('app/roles', 'RegistroController@roles');
     Route::post('app/registro', 'RegistroController@registroUsuarios');
 
+    //Barberias
     //Registro Barberias
     Route::post('app/registro_barberias', 'RegistroController@registroBarberias');
+    Route::post('app/edicion_barberia', 'RegistroController@editarBarberia');
+
+    //Listado Barberias
+    Route::post('app/barberias', 'ComunController@cargarBarberias');
+    Route::post('app/barberia_por_id', 'ComunController@cargarBarberiaPorId');
 });

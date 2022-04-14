@@ -9,9 +9,6 @@ use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Recibe los datos para verificar el usuario para el login
- */
 class RegistroStore implements Responsable
 {
     use ApiResponser;

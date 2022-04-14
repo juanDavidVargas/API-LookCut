@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responsables\registro_barberias\RegistroStore;
+use App\Http\Responsables\registro_barberias\BarberiaUpdate;
 use App\Http\Responsables\registro_usuarios\RegistroUsuarioStore;
 use App\Models\Roles;
 use App\Models\TipoIdentificacion;
@@ -106,6 +107,18 @@ class RegistroController extends Controller
         } else {
             return $this->errorResponse(['respuesta' => 'Datos Invalidos o Vacios'], 401);
         }
+    }
 
+    public function editarBarberia(Request $request)
+    {
+        $datos = $request->json();
+
+        if(is_object($datos) && !empty($datos) && !is_null($datos) && count($datos) > 0)
+        {
+            return new BarberiaUpdate();
+
+        } else {
+            return $this->errorResponse(['respuesta' => 'Datos Invalidos o Vacios'], 401);
+        }
     }
 }
