@@ -19,7 +19,12 @@ Route::middleware('auth:api', 'throttle:60,1')->group(function () {
     
     // Inicio Sesion
     Route::post('app/inicio_sesion', 'InicioSesionController@inicioSesion');
+    Route::post('app/validar_sesion', 'InicioSesionController@validarSesion');
+    
     Route::post('app/ciudades', 'ComunController@cargarCiudades');
+
+    //Logout
+    Route::post('app/logout', 'InicioSesionController@logout');
 
     //Registro Usuarios
     Route::post('app/tipos_documento', 'RegistroController@tiposDocumento');

@@ -55,15 +55,28 @@ class InicioSesionShow implements Responsable
 
             if(Hash::check($clave, $usuario->password))
             {
+                // Creamos las variables de sesion
+                session()->put('usuario_id', $usuario->id_usuario);
+                session()->put('username', $usuario->usuario);
+                session()->put('sesion_iniciada', true);
+
                 $datos_usuario = $this->contruirJsonDatosUsuario($usuario, $array_usuario);
+
+                // Metemos las variables de sesion al array de datos_usuario
+                array_push($datos_usuario, session('username'));
+                array_push($datos_usuario, session('sesion_iniciada'));
+                array_push($datos_usuario, session('usuario_id'));
+
                 $this->actualizarClaveFallas($usuario->id_usuario, 0);
 
-            } else {
+            } else 
+            {
                 $cont_clave_erronea += 1;
                 $this->actualizarClaveFallas($usuario->id_usuario, $cont_clave_erronea);
                 return $this->errorResponse(['message' => "Credenciales invalidas."], 401);
             }
 
+            // Retornamos objeto con los datos del usuario y las variables de sesion creadas
             return $this->successResponse($datos_usuario, 200);
         } else {
             return $this->errorResponse([

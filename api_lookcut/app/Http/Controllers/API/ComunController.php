@@ -17,11 +17,33 @@ class ComunController extends Controller
     public function cargarCiudades()
     {
         try {
+
+            $array_ciudades = [
+                7978,
+                7822,
+                7632,
+                7604,
+                7442,
+                7706,
+                5121,
+                7861,
+                7667,
+                7476,
+                7743,
+                7124,
+                1049,
+                7213,
+                2195,
+                6374,
+                2036,
+                2703
+            ];
             
             $ciudades = Ciudad::where('ciu_estado', 1)
                                 ->whereNull('deleted_at')
-                                ->whereNotNull('ciu_abreviatura')
-                                ->where('ciu_codigo_dane', 1)
+                                // ->whereNotNull('ciu_abreviatura')
+                                // ->where('ciu_codigo_dane', 1)
+                                ->whereIn('id_ciudad', $array_ciudades)
                                 ->orderBy('ciu_descripcion', 'ASC')
                                 ->get();
 

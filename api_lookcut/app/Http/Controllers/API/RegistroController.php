@@ -52,6 +52,7 @@ class RegistroController extends Controller
             
             $roles = Roles::whereNull('deleted_at')
                                 ->whereNotIn('id', array(4))
+                                ->where('estado', 1)
                                 ->orderBy('descripcion', 'ASC')
                                 ->get();
 
