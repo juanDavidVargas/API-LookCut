@@ -8,6 +8,7 @@ use App\Models\Establecimiento;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
+use App\Http\Responsables\registro_barberias\BarberiaUpdate;
 use Illuminate\Support\Facades\DB;
 
 class ComunController extends Controller
@@ -152,5 +153,18 @@ class ComunController extends Controller
         } catch (Exception $e) {
             return $this->errorResponse(['respuesta' => 'Ha ocurrido un error ' . $e->getMessage()], 400);
         }
+    }
+    
+    public function eliminarBarberia(Request $request)
+    {
+        $datos = $request->json();
+
+        if(is_object($datos) && !empty($datos) && !is_null($datos) && count($datos) > 0)
+        {
+            $barberUpdate = new BarberiaUpdate();
+            return $barberUpdate->eliminarBarberia($request);
+        } else {
+            return $this->errorResponse(['respuesta' => 'Datos Invalidos o Vacios'], 401);
+        } 
     }
 }

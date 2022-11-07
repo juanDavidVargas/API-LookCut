@@ -7,6 +7,7 @@ use App\Traits\ApiResponser;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class BarberiaUpdate implements Responsable
 {
@@ -97,6 +98,49 @@ class BarberiaUpdate implements Responsable
                                 "Ha ocurrido un error de base de datos, intente de nuevo!"
                     ], 404);
                 }
+        }
+    }
+    
+    public function eliminarBarberia($request)
+    {
+        try 
+        {
+            $barberia = Establecimiento::where('id', $request->id)
+                                        ->where('deleted_at', null)
+                                        ->first();
+            
+            if(isset($barberia) && !empty($barberia) && 
+               !is_null($barberia))
+            {
+                $barberia->deleted_at = Carbon::now()->format('y-m-d H:i:s');
+                $barberia->save();
+                
+                if($barberia)
+                {
+                    return $this->successResponse([
+                        'message' => 
+                                "Barberia eliminada Correctamente!"
+                    ], 200);
+                } else {
+
+                    return $this->errorResponse([
+                        'message' => 
+                                "Ha ocurrido un error eliminando la barberia, intente de nuevo, si el problema persiste contacte a Soporte!"
+                    ], 404);
+                }
+            } else {
+                return $this->errorResponse([
+                    'message' => 
+                            "No se encontraron datos con la informacion proporcionada"
+                ], 404);
+            }
+            
+        } catch (Exception $e) 
+        {
+            return $this->errorResponse([
+                'message' => 
+                        "Ha ocurrido un error de base de datos, intente de nuevo!"
+            ], 404);
         }
     }
 }
