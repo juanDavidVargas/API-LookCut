@@ -25,6 +25,7 @@ class RegistroStore implements Responsable
         $telefono = $datos_registro['telefono'];
         $email = $datos_registro['correo_electronico'];
         $es_barberia = $datos_registro['es_barberia'];
+        $id_usuario = $datos_registro['usuario_id'];
 
         if((isset($nombre) && empty($nombre) || is_null($nombre)) || 
            (isset($documento) && empty($documento) || is_null($documento)) ||
@@ -59,7 +60,8 @@ class RegistroStore implements Responsable
                         'correo' => $email,
                         'latitud' => null,
                         'longitud' => null,
-                        'tipo_negocio_id' => $tipo_negocio_id
+                        'tipo_negocio_id' => $tipo_negocio_id,
+                        'usuario_id' => $id_usuario
                     ]);
                     
                     if($barberia)

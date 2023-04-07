@@ -12,6 +12,6 @@ class Establecimiento extends Model
     public $timestamps = true;
     protected $fillable = [
         'descripcion', 'nit', 'ciudad_id', 'direccion', 'telefono',
-        'correo', 'latitud', 'longitud', 'tipo_negocio_id'
+        'correo', 'latitud', 'longitud', 'tipo_negocio_id', 'usuario_id'
     ];
 }

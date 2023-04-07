@@ -80,14 +80,37 @@ class ComunController extends Controller
         return $array_ciudad;
     }
 
-    public function cargarBarberias()
+    public function cargarBarberias(Request $request)
     {
+        $datos = $request->json();
+        
         try {
-            
-            $barberias = DB::table('establecimiento')
+        
+            if(is_object($datos) && !empty($datos) && !is_null($datos) && count($datos) > 0)
+            {
+                $dato_usuario= $request->all();
+                
+                $barberias = DB::table('establecimiento')
                                 ->join('ciudades', 'ciudades.id_ciudad', '=', 'establecimiento.ciudad_id')
                                 ->join('tipo_negocio', 'tipo_negocio.id', '=', 'establecimiento.tipo_negocio_id')
-                                ->select('establecimiento.id', 'establecimiento.descripcion AS desc_establecimiento', 'establecimiento.nit', 'establecimiento.direccion', 'establecimiento.telefono', 'establecimiento.correo', 'establecimiento.latitud', 'establecimiento.longitud', 'establecimiento.tipo_negocio_id', 'ciudades.id_ciudad', 'ciudades.ciu_descripcion', 'ciudades.ciu_abreviatura', 'ciudades.ciu_latitud', 'ciudades.ciu_longitud', 'tipo_negocio.descripcion')
+                                ->select(
+                                            'establecimiento.id', 
+                                            'establecimiento.descripcion AS desc_establecimiento', 
+                                            'establecimiento.nit', 
+                                            'establecimiento.direccion', 
+                                            'establecimiento.telefono', 
+                                            'establecimiento.correo', 
+                                            'establecimiento.latitud', 
+                                            'establecimiento.longitud', 
+                                            'establecimiento.tipo_negocio_id', 
+                                            'ciudades.id_ciudad', 
+                                            'ciudades.ciu_descripcion', 
+                                            'ciudades.ciu_abreviatura', 
+                                            'ciudades.ciu_latitud', 
+                                            'ciudades.ciu_longitud', 
+                                            'tipo_negocio.descripcion'
+                                        )
+                                ->where('usuario_id', $dato_usuario['usuario_id'])
                                 ->where('establecimiento.tipo_negocio_id', 1)
                                 ->whereNull('establecimiento.deleted_at')
                                 ->whereNull('tipo_negocio.deleted_at')
@@ -95,9 +118,12 @@ class ComunController extends Controller
                                 ->where('ciu_estado', 1)
                                 ->orderBy('establecimiento.descripcion', 'ASC')
                                 ->get();
-
+    
+            } else {
+                return $this->errorResponse(['respuesta' => 'Datos Invalidos o Vacios'], 401);
+            }
+            
             $datos_barberias = $this->construirJsonBarberias($barberias);
-
             return $this->successResponseBarberias($datos_barberias, 200);
 
         } catch (Exception $e) {
@@ -153,6 +179,78 @@ class ComunController extends Controller
         } catch (Exception $e) {
             return $this->errorResponse(['respuesta' => 'Ha ocurrido un error ' . $e->getMessage()], 400);
         }
+    }
+    
+    public function cargarDatosUsuarioPorId (Request $request)
+    {
+        try {
+            
+            $datosUsuario = DB::table('usuarios')
+                            ->join('tipo_identificacion', 'tipo_identificacion.id', '=', 'usuarios.tipo_identificacion_id')
+                            ->join('roles', 'roles.id', '=', 'usuarios.rol_id')
+                            ->select(
+                                        'usuarios.id_usuario',
+                                        'usuarios.usuario',
+                                        'usuarios.nombres',
+                                        'usuarios.apellidos',
+                                        'usuarios.estado', 
+                                        'usuarios.fecha_nacimiento',
+                                        'usuarios.lugar_nacimiento',
+                                        'usuarios.cedula',
+                                        'usuarios.grupo_sanguineo',
+                                        'usuarios.telefono',
+                                        'usuarios.celular',
+                                        'usuarios.email',
+                                        'usuarios.direccion',
+                                        'usuarios.genero',
+                                        'usuarios.tipo_identificacion_id',
+                                        'usuarios.rol_id',
+                                        'tipo_identificacion.descripcion AS tipo_doc',
+                                        'roles.descripcion AS rol'
+                                    )
+                            ->where('usuarios.estado', 1)
+                            ->whereNull('usuarios.deleted_at')
+                            ->whereNull('tipo_identificacion.deleted_at')
+                            ->whereNull('roles.deleted_at')
+                            ->where('roles.estado', 1)
+                            ->where('usuarios.id_usuario', $request->usuario_id)
+                            ->get();
+
+            $data_user = $this->construirJsonUsuario($datosUsuario);
+            return $this->successResponseUsuario($data_user, 200);
+            
+        } catch (Exception $e) {
+            return $this->errorResponse(['respuesta' => 'Ha ocurrido un error ' . $e->getMessage()], 400);
+        }
+    }
+    
+    private function construirJsonUsuario($datosUsuario)
+    {
+        $array_usuario = array();
+
+        foreach ($datosUsuario as $item) 
+        {
+            $usuario = [ 
+                "usuario_id" => $item->id_usuario,
+                "nombre_usuario" => $item->usuario,
+                "nombres" => $item->nombres,
+                "apellidos" => $item->apellidos,
+                "fecha_nacimiento" => !is_null($item->fecha_nacimiento) ? $item->fecha_nacimiento : '',
+                "lugar_nacimiento" => !is_null($item->lugar_nacimiento) ? $item->lugar_nacimiento : '',
+                "numero_documento" => !is_null($item->cedula) ? $item->cedula : '',
+                "grupo_sanguineo" => !is_null($item->grupo_sanguineo) ? $item->grupo_sanguineo : '',
+                "telefono" => !is_null($item->telefono) ? $item->telefono : '',
+                "celular" => !is_null($item->celular) ? $item->celular : '',
+                "correo" => !is_null($item->email) ? $item->email : '',
+                "direccion" => !is_null($item->direccion) ? $item->direccion : '',
+                "genero" => !is_null($item->genero) ? $item->genero : '',
+                "tipo_documento" => !is_null($item->tipo_doc) ? $item->tipo_doc : '',
+                "rol" => !is_null($item->rol) ? $item->rol : ''
+           ];
+
+            array_push($array_usuario, $usuario);
+        }
+        return $array_usuario;
     }
     
     public function eliminarBarberia(Request $request)

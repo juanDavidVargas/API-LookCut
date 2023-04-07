@@ -40,4 +40,7 @@ Route::middleware('auth:api', 'throttle:60,1')->group(function () {
     //Listado Barberias
     Route::post('app/barberias', 'ComunController@cargarBarberias');
     Route::post('app/barberia_por_id', 'ComunController@cargarBarberiaPorId');
+    
+    // Datos Usuario
+    Route::post('app/usuarioPorId', 'ComunController@cargarDatosUsuarioPorId');
 });
