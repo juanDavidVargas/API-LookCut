@@ -22,6 +22,7 @@ Route::middleware('auth:api', 'throttle:60,1')->group(function () {
     Route::post('app/validar_sesion', 'InicioSesionController@validarSesion');
     
     Route::post('app/ciudades', 'ComunController@cargarCiudades');
+    Route::post('app/ciudadesCodigoPostal', 'ComunController@cargarCiudadesCodigoPostal');
 
     //Logout
     Route::post('app/logout', 'InicioSesionController@logout');

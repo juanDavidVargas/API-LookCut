@@ -42,8 +42,6 @@ class ComunController extends Controller
             
             $ciudades = Ciudad::where('ciu_estado', 1)
                                 ->whereNull('deleted_at')
-                                // ->whereNotNull('ciu_abreviatura')
-                                // ->where('ciu_codigo_dane', 1)
                                 ->whereIn('id_ciudad', $array_ciudades)
                                 ->orderBy('ciu_descripcion', 'ASC')
                                 ->get();
@@ -233,8 +231,8 @@ class ComunController extends Controller
             $usuario = [ 
                 "usuario_id" => $item->id_usuario,
                 "nombre_usuario" => $item->usuario,
-                "nombres" => $item->nombres,
-                "apellidos" => $item->apellidos,
+                "nombres" => !is_null($item->nombres) ? $item->nombres : '',
+                "apellidos" => !is_null($item->apellidos) ? $item->apellidos : '',
                 "fecha_nacimiento" => !is_null($item->fecha_nacimiento) ? $item->fecha_nacimiento : '',
                 "lugar_nacimiento" => !is_null($item->lugar_nacimiento) ? $item->lugar_nacimiento : '',
                 "numero_documento" => !is_null($item->cedula) ? $item->cedula : '',
@@ -264,5 +262,25 @@ class ComunController extends Controller
         } else {
             return $this->errorResponse(['respuesta' => 'Datos Invalidos o Vacios'], 401);
         } 
+    }
+    
+    public function cargarCiudadesCodigoPostal()
+    {
+        try {
+            
+            $ciudadesCodigoPostal = Ciudad::where('ciu_estado', 1)
+                                            ->whereNull('deleted_at')
+                                            ->where('ciu_codigo_postal', '!=', '')
+                                            ->orWhereNotNull('ciu_codigo_postal')
+                                            ->orderBy('ciu_descripcion', 'ASC')
+                                            ->get();
+
+            $datos_ciudades = $this->construirJsonCiudades($ciudadesCodigoPostal);
+
+            return $this->successResponseCiudades($datos_ciudades, 200);
+
+        } catch (Exception $e) {
+            return $this->errorResponse(['respuesta' => 'Ha ocurrido un error ' . $e->getMessage()], 400);
+        }
     }
 }
