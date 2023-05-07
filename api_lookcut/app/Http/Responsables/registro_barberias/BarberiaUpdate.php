@@ -26,6 +26,7 @@ class BarberiaUpdate implements Responsable
         $telefono = $datos['telefono'];
         $email = $datos['correo'];
         $es_barberia = $datos['es_barberia'];
+        $usuario_id = $datos['usuario_id'];
 
         if((isset($nombre) && empty($nombre) || is_null($nombre)) || 
            (isset($documento) && empty($documento) || is_null($documento)) ||
@@ -63,6 +64,7 @@ class BarberiaUpdate implements Responsable
                         $barberia->telefono = $telefono;
                         $barberia->correo = $email;
                         $barberia->tipo_negocio_id = $tipo_negocio_id;
+                        $barberia->usuario_id = $usuario_id;
                         $barberia->save();
 
                         if($barberia)
